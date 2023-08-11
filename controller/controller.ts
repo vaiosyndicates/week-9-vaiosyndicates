@@ -59,8 +59,7 @@ const expenseController = {
         res.status(200).send({ 
               responCode: 200,
               status: 'success',
-              message: 'Berhasil tambah data!',
-              payloads: models
+              message: 'Berhasil tambah data!'
         });
 
       }
@@ -98,15 +97,13 @@ const expenseController = {
           res.status(200).send({ 
             responCode: 200,
             status: 'success',
-            message: 'Update data success',
-            payloads: models
+            message: 'Update data success'
           });
         } else {
             res.status(200).send({ 
             responCode: 200,
             status: 'success',
-            message: 'Data not Found',
-            payloads: models
+            message: 'Data not Found'
           });
         }
       }
