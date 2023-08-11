@@ -95,6 +95,25 @@ jumlah| integer | Mandatory
 This endpoint used for update data based on their ID
 
 ---
+```js
+Method: PATCH
+/api/expense/update/{id}
+```
+
+#### Parameter
+Field  | Data | Desc
+--- | --- | ---
+id| string  | Mandatory
+
+#### Input
+Field  | Data | Desc
+--- | --- | ---
+type|0 or 1 represent  ( Cash in or Cash Out ) | Mandatory
+
+
+This endpoint used for update specific data, in this case update type based on their ID
+
+---
 
 ```js
 Method: DELETE
