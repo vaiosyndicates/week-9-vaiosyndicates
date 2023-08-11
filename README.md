@@ -176,15 +176,18 @@ Deployment success and you can use this url for Postman testing : <b>[https://we
 ## RESULT
 
 <ol>
-  <li> Get Data Empty
+  <li> Get Data when array have empty values
 
 <img src="https://i.ibb.co/VChyPKG/api1.png" alt="api1" border="0">
+
   </li>
   <li> Post data / Insert data
 
 <img src="https://i.ibb.co/RB5VGT6/api2.png" alt="api2" border="0">
+
   </li>
-  <li> Get data after insert
+  <li> Get data after insert to array
+
 
 <img src="https://i.ibb.co/3m0kxVK/api3.png" alt="api3" border="0">
   </li>
