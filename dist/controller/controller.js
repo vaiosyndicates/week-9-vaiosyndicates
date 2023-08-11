@@ -62,8 +62,7 @@ const expenseController = {
                 res.status(200).send({
                     responCode: 200,
                     status: 'success',
-                    message: 'Berhasil tambah data!',
-                    payloads: models
+                    message: 'Berhasil tambah data!'
                 });
             }
         }
@@ -96,16 +95,52 @@ const expenseController = {
                     res.status(200).send({
                         responCode: 200,
                         status: 'success',
-                        message: 'Update data success',
-                        payloads: models
+                        message: 'Update data success'
                     });
                 }
                 else {
                     res.status(200).send({
                         responCode: 200,
                         status: 'success',
-                        message: 'Data not Found',
-                        payloads: models
+                        message: 'Data not Found'
+                    });
+                }
+            }
+        }
+        catch (error) {
+            res.status(505).send({
+                responCode: 500,
+                status: 'failed',
+                message: 'Network Error',
+                payloads: error.message
+            });
+        }
+    },
+    updateExpense: (req, res) => {
+        try {
+            const errors = (0, express_validator_1.validationResult)(req);
+            let ids = req.params.id;
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    success: false,
+                    errors: errors.array(),
+                });
+            }
+            else {
+                let objIndex = models.findIndex((obj => obj.id == `${ids}`));
+                if (objIndex !== -1) {
+                    models[objIndex].type = req.body.type == '1' ? 'Cash In' : 'Cash Out';
+                    res.status(200).send({
+                        responCode: 200,
+                        status: 'success',
+                        message: 'Update data success'
+                    });
+                }
+                else {
+                    res.status(200).send({
+                        responCode: 200,
+                        status: 'success',
+                        message: 'Data not Found'
                     });
                 }
             }
