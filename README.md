@@ -171,6 +171,45 @@ Set the domain name. It important because wee need this domain for Postmant need
   </li>
 </ol>
 
+Deployment success and you can use this url for Postman testing : <b>[https://week-8-vaiosyndicates-production.up.railway.app](https://week-8-vaiosyndicates-production.up.railway.app)</b>.
+
+## RESULT
+
+<ol>
+  <li> Get Data Empty
+
+<img src="https://i.ibb.co/VChyPKG/api1.png" alt="api1" border="0">
+  </li>
+  <li> Post data / Insert data
+
+<img src="https://i.ibb.co/RB5VGT6/api2.png" alt="api2" border="0">
+  </li>
+  <li> Get data after insert
+
+<img src="https://i.ibb.co/3m0kxVK/api3.png" alt="api3" border="0">
+  </li>
+  <li> Edit data but id not found in database / array
+
+<img src="https://i.ibb.co/bs1zYtH/api4.png" alt="api4" border="0">
+  </li>
+  <li> Update data success by id
+
+<img src="https://i.ibb.co/p4WSNyt/api5.png" alt="api5" border="0">
+  </li>
+  <li> Patch data success by id
+
+<img src="https://i.ibb.co/7j3QTtv/api6.png" alt="api6" border="0">
+  </li>
+  <li> Deleta data success by id
+
+<img src="https://i.ibb.co/brX0NZs/api7.png" alt="api7" border="0">
+  </li>
+  <li> Get data after delete
+
+<img src="https://i.ibb.co/GHS5bkK/api8.png" alt="api8" border="0">
+  </li>  
+</ol>
+
 
 ## Reach Me Out
 
