@@ -124,11 +124,52 @@ Method: DELETE
 Field  | Data | Desc
 --- | --- | ---
 id| string  | Mandatory
+
 This endpoint used for delete data based on their ID
 
 
 ## Deployment
 
+For deploying, i using <b>Railway</b>
+
+<ol>
+  <li>
+Create new project by clicking new project icon
+
+<img src="https://i.ibb.co/JqXjWm9/revou1.png" alt="revou1" border="0">
+  </li>
+  <li>
+There are several ways for deploying into Railways. For simplicity, choose deploy from Github Repo
+
+<img src="https://i.ibb.co/1Mj3jzN/revou2.png" alt="revou2" border="0">
+  </li>
+  <li>
+Choose the repository 
+
+<img src="https://i.ibb.co/SfN8W8G/revou3.png" alt="revou3" border="0">
+  </li>
+  <li>
+In this section, you can set the .env variable by using <b>Add Variable</b> menu
+After that, you can choose <b>Deploy Now</b>
+
+<img src="https://i.ibb.co/gtJ6qQ0/revou4.png" alt="revou4" border="0">
+  </li>
+  <li>
+Deploying will be procced
+
+<img src="https://i.ibb.co/2tFXLFG/revou5.png" alt="revou5" border="0">
+  </li>
+  <li>
+If you see "Success" notification, it means your repository success deployed on Railway
+
+<img src="https://i.ibb.co/nc5KQsz/revou6.png" alt="revou6" border="0">
+  </li>
+  <li>
+Set the domain name. It important because wee need this domain for Postmant need
+
+<img src="https://i.ibb.co/6N1dBmQ/revou7.png" alt="revou7" border="0">
+  </li>
+</ol>
 
 
 ## Reach Me Out
