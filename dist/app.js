@@ -14,7 +14,7 @@ const port = process.env.PORT;
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 // parse application/json
 app.use(body_parser_1.default.json());
-app.use('/', router_1.routerExpense);
+app.use('/api/', router_1.routerExpense);
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
