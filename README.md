@@ -207,9 +207,10 @@ Deployment success and you can use this url for Postman testing : <b>[https://we
 
 <img src="https://i.ibb.co/brX0NZs/api7.png" alt="api7" border="0">
   </li>
-  <li> Get data after delete
+  <li> Get data after delete action
 
 <img src="https://i.ibb.co/GHS5bkK/api8.png" alt="api8" border="0">
+
   </li>  
 </ol>
 
