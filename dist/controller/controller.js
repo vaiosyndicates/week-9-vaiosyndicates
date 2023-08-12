@@ -47,6 +47,34 @@ const expenseController = {
             });
         }
     }),
+    getExpensebyId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            let ids = req.params.id;
+            let objIndex = models.findIndex((obj => obj.id == `${ids}`));
+            if (objIndex !== -1) {
+                res.status(200).send({
+                    responCode: 200,
+                    status: 'success',
+                    payloads: models[objIndex]
+                });
+            }
+            else {
+                res.status(404).send({
+                    responCode: 404,
+                    status: 'success',
+                    message: 'Data not Found'
+                });
+            }
+        }
+        catch (error) {
+            res.status(505).send({
+                responCode: 505,
+                status: 'failed',
+                message: 'Network Error',
+                payloads: error.message
+            });
+        }
+    }),
     addExpense: (req, res) => {
         try {
             const errors = (0, express_validator_1.validationResult)(req);

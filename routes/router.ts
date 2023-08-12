@@ -5,6 +5,7 @@ import expenseValidator from "../util/validator";
 let routerExpense = express.Router()
 
 routerExpense.get('/expense', expenseController.getExpense)
+routerExpense.get('/expense/:id', expenseController.getExpensebyId)
 routerExpense.post('/expense/add', expenseValidator, expenseController.addExpense)
 routerExpense.put('/expense/edit/:id', expenseValidator, expenseController.editExpense)
 routerExpense.patch('/expense/update/:id', expenseController.updateExpense)

@@ -42,6 +42,34 @@ const expenseController = {
       });
     }
   },
+  getExpensebyId: async (req: express.Request, res: express.Response) => {
+    try {
+      let ids = req.params.id
+      let objIndex = models.findIndex((obj => obj.id == `${ids}`));
+      if (objIndex !== -1) {
+
+        res.status(200).send({ 
+          responCode: 200,
+          status: 'success',
+          payloads: models[objIndex]
+        });
+      } else {
+          res.status(404).send({ 
+          responCode: 404,
+          status: 'success',
+          message: 'Data not Found'
+        });
+      }
+
+    } catch (error: any) {
+      res.status(505).send({ 
+        responCode: 505,
+        status: 'failed',
+        message: 'Network Error',
+        payloads: error.message
+      });
+    }
+  },
   addExpense: (req: express.Request, res: express.Response) => {
 
     try {

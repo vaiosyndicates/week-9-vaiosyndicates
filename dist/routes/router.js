@@ -10,6 +10,7 @@ const validator_1 = __importDefault(require("../util/validator"));
 let routerExpense = express_1.default.Router();
 exports.routerExpense = routerExpense;
 routerExpense.get('/expense', controller_1.default.getExpense);
+routerExpense.get('/expense/:id', controller_1.default.getExpensebyId);
 routerExpense.post('/expense/add', validator_1.default, controller_1.default.addExpense);
 routerExpense.put('/expense/edit/:id', validator_1.default, controller_1.default.editExpense);
 routerExpense.patch('/expense/update/:id', controller_1.default.updateExpense);
