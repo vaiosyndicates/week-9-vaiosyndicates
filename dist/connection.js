@@ -27,14 +27,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connection = void 0;
-const mysql_1 = __importDefault(require("mysql"));
+const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-exports.connection = mysql_1.default.createConnection({
+exports.connection = mysql2_1.default.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PWD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    // port:13691
 });
 exports.connection.connect((err) => {
     if (err) {

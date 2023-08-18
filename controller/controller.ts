@@ -18,9 +18,18 @@ const expenseController = {
 
   getExpense: async (req: express.Request, res: express.Response) => {
     try {
-      connection.query(`SELECT * FROM tb_expense;`, function (error, results) {
-        if(error) throw error;
-        if(results.length > 0) {
+      connection.query({ sql: `SELECT * FROM tb_expense;`}, function (error, results) {
+        
+        if(error) {
+          res.status(505).send({ 
+            responCode: 505,
+            status: 'failed',
+            message: 'Network Error',
+            payloads: error.message 
+          });
+        }
+
+        if(results) {
           res.status(200).json({ 
             responCode: 200,
             status: 'success', 
@@ -62,25 +71,36 @@ const expenseController = {
         WHERE e.id_user = ${ids}
         GROUP BY u.id`, function (error, results) {
           
-        if(error) throw error;
-        if(results.length > 0) {
-          let parsed = JSON.parse(JSON.stringify(results))
-          let balance = parseInt(parsed[0].income) - parseInt(parsed[0].expense)
-          parsed[0]["balance"] = balance
+        if(error) {
+          res.status(505).send({ 
+            responCode: 505,
+            status: 'failed',
+            message: 'Network Error',
+            payloads: error.message 
+          });
+        }
 
-          res.status(200).send({ 
-            responCode: 200,
-            status: 'success', 
-            message: 'Berhasil ambil data!',
-            payloads: parsed 
-        });
-        } else {
-          res.status(404).send({ 
+        if (Array.isArray(results) && results.length === 0) {
+          res.status(404).json({ 
             responCode: 404,
             status: 'success', 
             message: 'Data not found',
             payloads: results 
          });
+        } else {
+          let parsed = JSON.parse(JSON.stringify(results))
+
+          let balance = parseInt(parsed[0].income) - parseInt(parsed[0].expense)
+          parsed[0]["income"] = parseInt(parsed[0]["income"])
+          parsed[0]["expense"] = parseInt(parsed[0]["expense"])
+          parsed[0]["balance"] = balance
+
+          res.status(200).json({ 
+            responCode: 200,
+            status: 'success', 
+            message: 'Berhasil ambil data!',  
+            payloads: parsed 
+          });
         }
       });
 
@@ -101,14 +121,10 @@ const expenseController = {
       connection.query(`INSERT INTO tb_expense (id_user,type, name, details, jumlah) VALUES(?,?,?,?,?);`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], 
       function (error, results) {
         if(error) throw error;  
-        console.log(results)
         res.status(200).json({ 
             responCode: 200,
             status: 'success',
-            message: 'Berhasil tambah data!',
-            payloads: {
-              id: results.insertId
-            } 
+            message: 'Berhasil tambah data!'
         });
       });
     
@@ -127,13 +143,12 @@ const expenseController = {
       
       connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
         if(error) throw error;
-        if(results.length > 0) {
+        if(Array.isArray(results) && results.length !== 0) {
           try {
         
             connection.query(`UPDATE tb_expense set id_user = ?, type = ?, name = ?, details = ?, jumlah = ? WHERE id = ${id};`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], 
             function (error, results) {
               if(error) throw error;  
-              console.log(results)
               res.status(200).json({
                   responCode: 200,
                   status: 'success',
@@ -177,7 +192,7 @@ const expenseController = {
       
       connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
         if(error) throw error;
-        if(results.length > 0) {
+        if(Array.isArray(results) && results.length !== 0) {
           try {
         
             connection.query(`DELETE FROM tb_expense  WHERE id = '${id}';`, 
