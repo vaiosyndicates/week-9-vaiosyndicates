@@ -20,12 +20,12 @@ const expenseController = {
     try {
       connection.query({ sql: `SELECT * FROM tb_expenses;`}, function (error, results) {
         
-        if(error) {
+        if (Array.isArray(results) && results.length === 0) {
           res.status(505).send({ 
             responCode: 505,
             status: 'failed',
             message: 'Network Error',
-            payloads: error.message 
+            payloads: error 
           });
         }
 
