@@ -21,14 +21,14 @@ const expenseController = {
       connection.query(`SELECT * FROM tb_expense;`, function (error, results) {
         if(error) throw error;
         if(results.length > 0) {
-          res.status(200).send({ 
+          res.status(200).json({ 
             responCode: 200,
             status: 'success', 
             message: 'Berhasil ambil data!',
             payloads: results 
         });
         } else {
-          res.status(404).send({ 
+          res.status(404).json({ 
             responCode: 404,
             status: 'success', 
             message: 'Data not found',
@@ -65,7 +65,7 @@ const expenseController = {
         if(error) throw error;
         if(results.length > 0) {
           let parsed = JSON.parse(JSON.stringify(results))
-          let balance = parsed[0].income - parsed[0].expense
+          let balance = parseInt(parsed[0].income) - parseInt(parsed[0].expense)
           parsed[0]["balance"] = balance
 
           res.status(200).send({ 
@@ -97,20 +97,23 @@ const expenseController = {
 
     try {
       // console.log(req.body)
-      let id = "id" + Math.random().toString(16).slice(2)
-      connection.query(`INSERT INTO tb_expense (id,id_user,type, name, details, jumlah) VALUES(?,?,?,?,?,?);`, [id, req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], 
+      // let id = "id" + Math.random().toString(16).slice(2)
+      connection.query(`INSERT INTO tb_expense (id_user,type, name, details, jumlah) VALUES(?,?,?,?,?);`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], 
       function (error, results) {
         if(error) throw error;  
-        res.status(200).send({ 
+        console.log(results)
+        res.status(200).json({ 
             responCode: 200,
             status: 'success',
             message: 'Berhasil tambah data!',
-            payloads: results 
+            payloads: {
+              id: results.insertId
+            } 
         });
       });
     
     } catch (error:any) {
-      res.status(505).send({ 
+      res.status(505).json({ 
         responCode: 505,
         status: 'failed',
         message: 'Network Error',
@@ -118,116 +121,101 @@ const expenseController = {
       });
     }
   },
-  editExpense: (req: express.Request, res: express.Response) => {
-
+   editExpense: (req: express.Request, res: express.Response) => {
+    let id = req.params.id
     try {
-      const errors = validationResult(req);
-      let ids = req.params.id
-
-      if (!errors.isEmpty()) {
-        return res.status(400).json({
-          success: false,
-          errors: errors.array(),
-        });
-      } else {
-
-        let objIndex = models.findIndex((obj => obj.id == `${ids}`));
-        if (objIndex !== -1) {
-  
-          models[objIndex].type =  req.body.type == '1' ? 'Cash In' : 'Cash Out'
-          models[objIndex].name = req.body.name
-          models[objIndex].details = req.body.details
-          models[objIndex].jumlah = parseInt(req.body.jumlah)
-  
-          res.status(200).send({ 
-            responCode: 200,
-            status: 'success',
-            message: 'Update data success'
-          });
+      
+      connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
+        if(error) throw error;
+        if(results.length > 0) {
+          try {
+        
+            connection.query(`UPDATE tb_expense set id_user = ?, type = ?, name = ?, details = ?, jumlah = ? WHERE id = ${id};`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], 
+            function (error, results) {
+              if(error) throw error;  
+              console.log(results)
+              res.status(200).json({
+                  responCode: 200,
+                  status: 'success',
+                  message: 'Berhasil edit data!',
+                  payloads: {
+                    id: parseInt(id)
+                  }
+              });
+            });
+          
+          } catch (error:any) {
+            res.status(505).json({ 
+              responCode: 505,
+              status: 'failed',
+              message: 'Network Error',
+              payloads: error.message 
+            });
+          }
         } else {
-            res.status(200).send({ 
-            responCode: 200,
-            status: 'success',
-            message: 'Data not Found'
+          res.status(404).json({ 
+            responCode: 404,
+            status: 'success', 
+            message: 'Data not found',
           });
         }
-      }
-
-    } catch (error: any) {
-      res.status(505).send({ 
-        responCode: 500,
-        status: 'failed',
-        message: 'Network Error',
-        payloads: error.message
+  
       });
-    }
-  },
-  updateExpense: (req: express.Request, res: express.Response) => {
-
-    try {
-      const errors = validationResult(req);
-      let ids = req.params.id
-
-      if (!errors.isEmpty()) {
-        return res.status(400).json({
-          success: false,
-          errors: errors.array(),
-        });
-      } else {
-
-        let objIndex = models.findIndex((obj => obj.id == `${ids}`));
-        if (objIndex !== -1) {
-  
-          models[objIndex].type =  req.body.type == '1' ? 'Cash In' : 'Cash Out'
-  
-          res.status(200).send({ 
-            responCode: 200,
-            status: 'success',
-            message: 'Update data success'
-          });
-        } else {
-            res.status(200).send({ 
-            responCode: 200,
-            status: 'success',
-            message: 'Data not Found'
-          });
-        }
-      }
-
-    } catch (error: any) {
-      res.status(505).send({ 
-        responCode: 500,
+    
+    } catch (error:any) {
+      res.status(505).json({ 
+        responCode: 505,
         status: 'failed',
         message: 'Network Error',
-        payloads: error.message
+        payloads: error.message 
       });
     }
   },
   deleteExpense: (req: express.Request, res: express.Response) => {
+    let id = req.params.id
     try {
-      let ids = req.params.id
-      let objIndex = models.findIndex((obj => obj.id == `${ids}`));
-
-      if (objIndex !== -1) {
-        models.splice(objIndex, 1);
-        res.status(200).send({ 
-          responCode: 200,
-          status: 'success',
-          message: 'Success delete data',
-        });
-      } else {
-          res.status(200).send({ 
-          responCode: 200,
-          status: 'failed',
-          message: 'Data not found',
-        });
-      }
-    } catch (error: any) {
-      res.status(505).send({ 
+      
+      connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
+        if(error) throw error;
+        if(results.length > 0) {
+          try {
+        
+            connection.query(`DELETE FROM tb_expense  WHERE id = '${id}';`, 
+            function (error, results) {
+              if(error) throw error;
+              res.status(200).send({ 
+                  responCode: 200,
+                  status: 'success',
+                  message: 'Delete Success',
+                  payloads: {
+                    id: parseInt(id)
+                  } 
+              });
+            });
+          
+          } catch (error:any) {
+            res.status(505).json({ 
+              responCode: 505,
+              status: 'failed',
+              message: 'Network Error',
+              payloads: error.message 
+            });
+          }
+        } else {
+          res.status(404).json({ 
+            responCode: 404,
+            status: 'success', 
+            message: 'Data not found',
+          });
+        }
+      });
+    
+    } catch (error:any) {
+      res.status(505).json({ 
         responCode: 505,
         status: 'failed',
-        message: 'Network Failed',
-        error: error.message
+        message: 'Network Error',
+        payloads: error.message 
       });
     }
   },
