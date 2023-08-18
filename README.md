@@ -40,6 +40,19 @@ jumlah| integer | Mandatory
 This endpoint used for post data and save it to array / database
 
 ---
+
+```js
+Method: GET
+/api/expense/{id}
+```
+
+#### Parameter
+Field  | Data | Desc
+--- | --- | ---
+id| string  | Mandatory ( Id User )
+
+This endpoint will return specific user data and expenses, income or balance
+
 ```js
 Method: PUT
 /api/expense/edit/{id}
@@ -48,7 +61,7 @@ Method: PUT
 #### Parameter
 Field  | Data | Desc
 --- | --- | ---
-id| string  | Mandatory
+id| string  | Mandatory ( ID Expenses )
 
 #### Input
 Field  | Data | Desc
@@ -71,7 +84,7 @@ Method: DELETE
 #### Parameter
 Field  | Data | Desc
 --- | --- | ---
-id| string  | Mandatory
+id| string  | Mandatory ( ID Expenses )
 
 This endpoint used for delete data based on their ID
 
