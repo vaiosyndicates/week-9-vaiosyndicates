@@ -21,7 +21,7 @@ const collectData = (id, type, name, details, jumlah) => ({
 const expenseController = {
     getExpense: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            connection_1.connection.query({ sql: `SELECT * FROM tb_expense;` }, function (error, results) {
+            connection_1.connection.query({ sql: `SELECT * FROM tb_expenses;` }, function (error, results) {
                 if (error) {
                     res.status(505).send({
                         responCode: 505,
@@ -68,7 +68,7 @@ const expenseController = {
         SUM(CASE WHEN e.type = 'Cash In' THEN e.jumlah ELSE 0 END) AS income,
         SUM(CASE WHEN e.type = 'Cash Out' THEN e.jumlah ELSE 0 END) AS expense
         FROM tb_users AS u 
-        JOIN tb_expense AS e 
+        JOIN tb_expenses AS e 
         ON e.id_user = u.id
         WHERE e.id_user = ${ids}
         GROUP BY u.id`, function (error, results) {
@@ -116,7 +116,7 @@ const expenseController = {
         try {
             // console.log(req.body)
             // let id = "id" + Math.random().toString(16).slice(2)
-            connection_1.connection.query(`INSERT INTO tb_expense (id_user,type, name, details, jumlah) VALUES(?,?,?,?,?);`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], function (error, results) {
+            connection_1.connection.query(`INSERT INTO tb_expenses (id_user,type, name, details, jumlah) VALUES(?,?,?,?,?);`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], function (error, results) {
                 if (error)
                     throw error;
                 res.status(200).json({
@@ -138,12 +138,12 @@ const expenseController = {
     editExpense: (req, res) => {
         let id = req.params.id;
         try {
-            connection_1.connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
+            connection_1.connection.query(`SELECT * FROM tb_expenses  WHERE id = '${id}';`, function (error, results) {
                 if (error)
                     throw error;
                 if (Array.isArray(results) && results.length !== 0) {
                     try {
-                        connection_1.connection.query(`UPDATE tb_expense set id_user = ?, type = ?, name = ?, details = ?, jumlah = ? WHERE id = ${id};`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], function (error, results) {
+                        connection_1.connection.query(`UPDATE tb_expenses set id_user = ?, type = ?, name = ?, details = ?, jumlah = ? WHERE id = ${id};`, [req.body.id_user, req.body.type == '1' ? 'Cash In' : 'Cash Out', req.body.name, req.body.details, parseInt(req.body.jumlah)], function (error, results) {
                             if (error)
                                 throw error;
                             res.status(200).json({
@@ -186,12 +186,12 @@ const expenseController = {
     deleteExpense: (req, res) => {
         let id = req.params.id;
         try {
-            connection_1.connection.query(`SELECT * FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
+            connection_1.connection.query(`SELECT * FROM tb_expenses  WHERE id = '${id}';`, function (error, results) {
                 if (error)
                     throw error;
                 if (Array.isArray(results) && results.length !== 0) {
                     try {
-                        connection_1.connection.query(`DELETE FROM tb_expense  WHERE id = '${id}';`, function (error, results) {
+                        connection_1.connection.query(`DELETE FROM tb_expenses  WHERE id = '${id}';`, function (error, results) {
                             if (error)
                                 throw error;
                             res.status(200).send({
