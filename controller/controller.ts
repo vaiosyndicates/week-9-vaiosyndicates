@@ -55,7 +55,7 @@ const expenseController = {
       });
     }
   },
-  getExpensebyId: async (req: express.Request, res: express.Response) => {
+  getUserbyId: async (req: express.Request, res: express.Response) => {
     try {
       let ids = req.params.id
       connection.query(`

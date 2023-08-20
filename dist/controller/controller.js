@@ -22,12 +22,12 @@ const expenseController = {
     getExpense: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             connection_1.connection.query({ sql: `SELECT * FROM tb_expenses;` }, function (error, results) {
-                if (error) {
+                if (Array.isArray(results) && results.length === 0) {
                     res.status(505).send({
                         responCode: 505,
                         status: 'failed',
                         message: 'Network Error',
-                        payloads: error.message
+                        payloads: error
                     });
                 }
                 if (results) {
@@ -57,7 +57,7 @@ const expenseController = {
             });
         }
     }),
-    getExpensebyId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    getUserbyId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             let ids = req.params.id;
             connection_1.connection.query(`
